@@ -11,9 +11,7 @@ In order to implement this strategy:
 1. invoke that function to create your data table, and leverage RangeStart and RangeEnd parameters for start and end dates
 1. be sure to define empty table structure and add "try...otherwise..." block to M query to avoid empty dataset errors when no files are processed
 
-
 **Definition of Function:**
-
 The function below will query a storage container in Azure, and return a list of files matching the pattern "_YYYYMM.csv".  Note the variable Schema is used to define an empty table that matches the schema of the data table.  This empty table is returned when an error is thrown because no files exist that match the desired pattern.
 
 ![](.\Images\FunctionDefinition.jpg)
@@ -42,20 +40,15 @@ in
 ```
 
 **Invocation of Function**
-
 ![](.\Images\DataTableDefinition.jpg)
-<p>
 
 *Incremental Refresh Properties
 
 ![](.\Images\IncrementalRefreshProperties.jpg)
-<p>
 
 After testing the refresh locally in Power BI Desktop, it's time to publish the report to the service, and process the dataset twice.  The first refresh will create and process all partitions of your table.  Subsequent refresh will only process the most recent partition based on the incremental refresh rules that you have defined.  In this example, I have created 2 source files as 'Sales_202006.csv' and 'Sales_202007.csv', and my incremental refresh was configured to only process last 1 day of data.  Since I am running this test on 20200811, I expect both files to be ignored on the 2nd refresh resulting in much faster load time without any data loss.  There are 2 easy ways to prove that things are working as expected.  The first is to look at the refresh history in the Power BI service to confirm that both refreshes did indeed completely successfully, and the 2nd ran much faster than the first.  The second test involves using SSMS to browse the partitions created for this dataset, and confirm that the data is stored in separate partitions (based on file name), and only the most recent partition was processed by the 2nd refresh (Note: this test requires Premium capacity which enables XMLA endpoints).
-<p>
 
 **Refresh History**
-
 You'll see that the first time the dataset is processed in the Power BI service, all partitions are always processed, so you should expect the runtime to be similar to what you'd see if you did not use incremental refresh at all.  Subsequent Refreshes will occur much faster (~4 seconds in my case) since they will not find any file names matching the specified pattern, and will not load any new data (Note: original data will not be deleted as long as it does not fall outside of the range specified in incremental refresh properties.
 
 ![](.\Images\RefreshHistory.jpg)<p>
