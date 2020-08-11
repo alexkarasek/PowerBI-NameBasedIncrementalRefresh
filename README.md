@@ -39,7 +39,7 @@ in
 }
 ```
 
-**Invocation of Function**
+**Invocation of Function**<p>
 ![](/Images/DataTableDefinition.jpg)
 
 *Incremental Refresh Properties
