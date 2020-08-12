@@ -1,7 +1,9 @@
 # PowerBI-Name Based Incremental Refresh
 **Demonstration of how to use incremental refresh capabilities in Power BI to exclude individual files and tables from processing.**
 
-The goal of this exercise is to exclude individual files from being processed by a dataset refresh in the Power BI service.  There may be times where you have an "append only" table (based on a directory of files) included in your Power BI model, and you'd like to avoid re-processing the static history each time your data is refreshed.  This is possible today in the Power BI Desktop application via "Include in report refresh" property assigned in Power Query (see image below), but it is not currently supported once a report is published.  To work around this limitation, it is possible to use incremental refresh to partition your table by file name, and achieve greater control over which data is included in a refresh.
+The goal of this exercise is to exclude individual files from being processed by a dataset refresh in the Power BI service.  There may be times where you have an "append only" table (based on a directory of files) included in your Power BI model, and you'd like to avoid re-processing the static history each time your data is refreshed.  This is possible today in the Power BI Desktop application via "Include in report refresh" property assigned in Power Query (see image below), but it is not currently supported once a report is published.  I'd typically recommend trying to load the data into relational database tables which would provide more flexibility, but if that is not an option, there are other options.  To work around this limitation, it is possible to use incremental refresh to partition your table by file name, and achieve greater control over which data is included in a refresh.
+
+**Note: this approach is based on similar scenario described in blog posted [here](https://www.poweredsolutions.co/2020/01/19/incremental-refresh-for-files-in-a-folder-or-sharepoint-power-bi/) by Miguel Escobar earlier this year**
 
 ![](/Images/IncludeInRefreshMenu.jpg)
 
